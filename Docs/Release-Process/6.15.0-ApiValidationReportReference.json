@@ -3,35 +3,6 @@
     "newAssemblies": [],
     "assemblyChanges": [
         {
-            "assemblyName": "glTFast",
-            "additions": [
-                "MemberAdded ( -> System.Void GLTFast.GameObjectInstantiator::AddAnimation(UnityEngine.AnimationClip[]))",
-                "MemberAdded ( -> UnityEngine.Animation GLTFast.GameObjectSceneInstance::LegacyAnimation())",
-                "MemberAdded ( -> System.Nullable`1<UnityEngine.Playables.Playable> GLTFast.GameObjectSceneInstance::Playable())",
-                "MemberAdded ( -> UnityEngine.AnimationClip[] GLTFast.GltfImportBase::GetAnimationClips())",
-                "MemberAdded ( -> System.Void GLTFast.IInstantiator::AddAnimation(UnityEngine.AnimationClip[]))",
-                "MemberAdded ( -> System.Collections.Generic.IReadOnlyList`1<GLTFast.Schema.AnimationChannelBase> GLTFast.Schema.AnimationBase::Channels())",
-                "MemberAdded ( -> System.Collections.Generic.IReadOnlyList`1<GLTFast.Schema.AnimationSampler> GLTFast.Schema.AnimationBase::Samplers())",
-                "MemberAdded ( -> TAnimation[] GLTFast.Schema.RootBase`15::animations)",
-                "MemberAdded ( -> System.Collections.Generic.IReadOnlyList`1<GLTFast.Schema.AnimationBase> GLTFast.Schema.RootBase::Animations())",
-                "MemberAdded ( -> System.Boolean GLTFast.Schema.RootBase::HasAnimation())",
-                "TypeAddedChange ( -> GLTFast.Schema.AnimationChannel)",
-                "TypeAddedChange ( -> GLTFast.Schema.AnimationChannelBase`1)",
-                "TypeAddedChange ( -> GLTFast.Schema.AnimationChannelBase)",
-                "TypeAddedChange ( -> GLTFast.Schema.AnimationChannelBase/Path)",
-                "TypeAddedChange ( -> GLTFast.Schema.AnimationChannelTarget)",
-                "TypeAddedChange ( -> GLTFast.Schema.AnimationSampler)",
-                "TypeAddedChange ( -> GLTFast.Schema.AnimationBase`2)",
-                "TypeAddedChange ( -> GLTFast.Schema.InterpolationType)",
-                "TypeAddedChange ( -> GLTFast.Loading.CustomHeaderTextureDownload)",
-                "TypeAddedChange ( -> GLTFast.Loading.AwaitableTextureDownload)"
-            ],
-            "breakingChanges": [
-                "TypeHierarchyChanged (GLTFast.Schema.Animation -> GLTFast.Schema.Animation)",
-                "TypeHierarchyChanged (GLTFast.Schema.AnimationBase -> GLTFast.Schema.AnimationBase)"
-            ]
-        },
-        {
             "assemblyName": "glTFast.Newtonsoft",
             "additions": [
                 "TypeAddedChange ( -> GLTFast.Newtonsoft.GltfImport)",
@@ -75,9 +46,41 @@
                 "TypeAddedChange ( -> GLTFast.Newtonsoft.Schema.UnclassifiedData)"
             ],
             "breakingChanges": []
+        },
+        {
+            "assemblyName": "glTFast",
+            "additions": [
+                "MemberAdded ( -> System.Void GLTFast.GameObjectInstantiator::AddAnimation(UnityEngine.AnimationClip[]))",
+                "MemberAdded ( -> UnityEngine.Animation GLTFast.GameObjectSceneInstance::LegacyAnimation())",
+                "MemberAdded ( -> System.Nullable`1<UnityEngine.Playables.Playable> GLTFast.GameObjectSceneInstance::Playable())",
+                "MemberAdded ( -> UnityEngine.AnimationClip[] GLTFast.GltfImportBase::GetAnimationClips())",
+                "MemberAdded ( -> System.Void GLTFast.IInstantiator::AddAnimation(UnityEngine.AnimationClip[]))",
+                "MemberAdded ( -> System.Collections.Generic.IReadOnlyList`1<GLTFast.Schema.AnimationChannelBase> GLTFast.Schema.AnimationBase::Channels())",
+                "MemberAdded ( -> System.Collections.Generic.IReadOnlyList`1<GLTFast.Schema.AnimationSampler> GLTFast.Schema.AnimationBase::Samplers())",
+                "MemberAdded ( -> TAnimation[] GLTFast.Schema.RootBase`15::animations)",
+                "MemberAdded ( -> System.Collections.Generic.IReadOnlyList`1<GLTFast.Schema.AnimationBase> GLTFast.Schema.RootBase::Animations())",
+                "MemberAdded ( -> System.Boolean GLTFast.Schema.RootBase::HasAnimation())",
+                "MemberAdded ( -> GLTFast.Logging.LogCode GLTFast.Logging.LogCode::TextureSamplerNotApplied)",
+                "MemberAdded ( -> GLTFast.Logging.LogCode GLTFast.Logging.LogCode::BufferDataUriUnexpectedMimeType)",
+                "MemberAdded ( -> GLTFast.Logging.LogCode GLTFast.Logging.LogCode::BufferContentUndersized)",
+                "TypeAddedChange ( -> GLTFast.Schema.AnimationChannel)",
+                "TypeAddedChange ( -> GLTFast.Schema.AnimationChannelBase`1)",
+                "TypeAddedChange ( -> GLTFast.Schema.AnimationChannelBase)",
+                "TypeAddedChange ( -> GLTFast.Schema.AnimationChannelBase/Path)",
+                "TypeAddedChange ( -> GLTFast.Schema.AnimationChannelTarget)",
+                "TypeAddedChange ( -> GLTFast.Schema.AnimationSampler)",
+                "TypeAddedChange ( -> GLTFast.Schema.AnimationBase`2)",
+                "TypeAddedChange ( -> GLTFast.Schema.InterpolationType)",
+                "TypeAddedChange ( -> GLTFast.Loading.CustomHeaderTextureDownload)",
+                "TypeAddedChange ( -> GLTFast.Loading.AwaitableTextureDownload)"
+            ],
+            "breakingChanges": [
+                "TypeHierarchyChanged (GLTFast.Schema.Animation -> GLTFast.Schema.Animation)",
+                "TypeHierarchyChanged (GLTFast.Schema.AnimationBase -> GLTFast.Schema.AnimationBase)"
+            ]
         }
     ],
     "breakingChanges": 2,
-    "additions": 59,
+    "additions": 62,
     "removedAssemblyCount": 0
 }
