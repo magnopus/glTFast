@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- (Test) Test glTF asset *CylinderWithMaterial* that's procedurally generated at runtime.
+- (Test) Tests for documentation examples.
 
 ### Changed
 - (Performance) Import mesh indices as unsigned integers and don't convert to signed integers anymore.

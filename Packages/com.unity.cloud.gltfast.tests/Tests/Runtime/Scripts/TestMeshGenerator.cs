@@ -27,14 +27,14 @@ namespace GLTFast.Tests
             var uv = new Vector2[vertexCount];
             var indices = new int[triangleCount * 3];
 
-            var topAngleIncrement = 2 * math.PI / triangleCount;
+            m.indexFormat = vertexCount > ushort.MaxValue ? IndexFormat.UInt32 : IndexFormat.UInt16;
 
             for (var i = 0; i < triangleCount; i++)
             {
                 var top = (i & 1) == 0;
                 float y;
                 indices[i * 3] = i;
-                var angle = i * topAngleIncrement;
+                var angle = (float)(i * 2 * math.PI_DBL / triangleCount);
                 if (top)
                 {
                     y = 1;
@@ -48,8 +48,8 @@ namespace GLTFast.Tests
                     indices[i * 3 + 2] = i + 2;
                 }
 
-                var x = Mathf.Cos(angle);
-                var z = Mathf.Sin(angle);
+                var x = math.cos(angle);
+                var z = math.sin(angle);
                 positions[i] = new Vector3(x * radius, y, z * radius);
                 normals[i] = new Vector3(x, 0, z);
                 uv[i] = new Vector2(i / (float)triangleCount, y);

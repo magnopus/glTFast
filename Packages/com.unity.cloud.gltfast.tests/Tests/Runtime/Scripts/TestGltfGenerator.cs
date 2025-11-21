@@ -16,6 +16,11 @@ namespace GLTFast.Tests
 {
     static class TestGltfGenerator
     {
+        public enum Asset
+        {
+            CylinderWithMaterial
+        }
+
         const string k_TestFileFolder = "gltf-perf";
 
         internal static string FlatHierarchyPath =>
@@ -40,7 +45,7 @@ namespace GLTFast.Tests
             }
         }
 
-        internal static async Task CreatePerformanceTestFilesAsync()
+        static async Task CreatePerformanceTestFilesAsync()
         {
             var folder = Path.Combine(Application.streamingAssetsPath, k_TestFileFolder);
             if (!Directory.Exists(folder))
@@ -81,6 +86,58 @@ namespace GLTFast.Tests
                     Debug.LogException(e);
                 }
             }
+        }
+
+        public static string GetAssetPath(Asset asset, GltfFormat format = GltfFormat.Json)
+        {
+            return Path.Combine(
+                Application.temporaryCachePath,
+                k_TestFileFolder,
+                $"{asset.ToString()}.{(format == GltfFormat.Binary ? "glb" : "gltf")}"
+                );
+        }
+
+        internal static async Task CreateTestFilesAsync(Asset asset, GltfFormat format = GltfFormat.Json)
+        {
+            var folder = Path.Combine(Application.temporaryCachePath, k_TestFileFolder);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            var path = GetAssetPath(asset, format);
+            if (File.Exists(path))
+                return;
+
+            switch (asset)
+            {
+                case Asset.CylinderWithMaterial:
+                    await CreateCylinderWithMaterial(path, format);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(asset), asset, null);
+            }
+        }
+
+        static async Task CreateCylinderWithMaterial(string path, GltfFormat format)
+        {
+            var exportSettings = new ExportSettings
+            {
+                Format = format
+            };
+            var writer = new GltfWriter(exportSettings);
+
+            var material = new Material(Shader.Find("glTF/PbrMetallicRoughness")) { name = "MyGltfMaterial" };
+            var materialExport = MaterialExport.GetDefaultMaterialExport();
+            writer.AddMaterial(material, out var materialId, materialExport);
+
+            var cylinderMesh = TestMeshGenerator.GenerateCylinderMesh(6);
+
+            var nodes = new List<uint>();
+            var nodeId = writer.AddNode(new float3(0), name: "Cylinder");
+            nodes.Add(nodeId);
+
+            writer.AddMeshToNode((int)nodeId, cylinderMesh, new[] { materialId }, null);
+            writer.AddScene(nodes.ToArray());
+            await writer.SaveToFileAndDispose(path);
         }
 
         static async Task CreateGltfFlatHierarchy(string path, int nodeCount, GltfFormat format)

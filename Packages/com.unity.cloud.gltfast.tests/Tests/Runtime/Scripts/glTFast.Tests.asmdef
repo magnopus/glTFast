@@ -14,6 +14,7 @@
         "glTFast.dots",
         "glTFast.Export",
         "glTFast.Newtonsoft",
+        "glTFast.Documentation.Examples",
         "Unity.Meshopt.Decompress",
         "UnityEngine.TestTools.Graphics",
         "Unity.RenderPipelines.HighDefinition.Runtime"

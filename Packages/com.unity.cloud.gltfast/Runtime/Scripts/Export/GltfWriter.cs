@@ -156,14 +156,14 @@ namespace GLTFast.Export
         }
 
         /// <inheritdoc />
-        [Obsolete("Use overload with skinning parameter.")]
+        [Obsolete("Use overload with joints parameter.")]
         public void AddMeshToNode(int nodeId, UnityEngine.Mesh uMesh, int[] materialIds)
         {
             AddMeshToNode(nodeId, uMesh, materialIds, true);
         }
 
         /// <inheritdoc />
-        [Obsolete("Use overload with skinning parameter.")]
+        [Obsolete("Use overload with joints parameter.")]
         public void AddMeshToNode(int nodeId, UnityEngine.Mesh uMesh, int[] materialIds, bool skinning)
         {
             AddMeshToNode(nodeId, uMesh, materialIds, null);
