@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Returning a proper error for glTF-Binary with a content length shorter than what's depicted in the header.
+- NotSupportedException when loading a glTF-Binary file with excess length (fixes [#786](https://github.com/atteneder/glTFast/issues/786)).
 - (Documentation) Clarified how to add export shader variants.
 
 ### Removed
