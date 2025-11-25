@@ -18,18 +18,6 @@ namespace GLTFast.DocExamples.Tests
     [Category("DocExamples")]
     class DocExamplesTests : IPrebuildSetup, IPostBuildCleanup
     {
-        [UnitySetUp]
-        public IEnumerator SetUp()
-        {
-            yield return AsyncWrapper.WaitForTask(SetupImplementation());
-            yield break;
-
-            async Task SetupImplementation()
-            {
-                await TestGltfGenerator.CreateTestFilesAsync(TestGltfGenerator.Asset.CylinderWithMaterial);
-            }
-        }
-
         [UnityTest]
         public IEnumerator LoadViaComponent()
         {
@@ -214,10 +202,11 @@ namespace GLTFast.DocExamples.Tests
             Object.Destroy(go);
         }
 
-        public void Setup()
+        public async void Setup()
         {
 #if UNITY_EDITOR
             AddTagAndLayer("MyCustomLayer", "ExportMe");
+            await TestGltfGenerator.CreateTestAssetAsync(TestGltfGenerator.Asset.CylinderWithMaterial);
 #endif
         }
 

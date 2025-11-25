@@ -91,15 +91,15 @@ namespace GLTFast.Tests
         public static string GetAssetPath(Asset asset, GltfFormat format = GltfFormat.Json)
         {
             return Path.Combine(
-                Application.temporaryCachePath,
+                Application.streamingAssetsPath,
                 k_TestFileFolder,
                 $"{asset.ToString()}.{(format == GltfFormat.Binary ? "glb" : "gltf")}"
                 );
         }
 
-        internal static async Task CreateTestFilesAsync(Asset asset, GltfFormat format = GltfFormat.Json)
+        internal static async Task CreateTestAssetAsync(Asset asset, GltfFormat format = GltfFormat.Json)
         {
-            var folder = Path.Combine(Application.temporaryCachePath, k_TestFileFolder);
+            var folder = Path.Combine(Application.streamingAssetsPath, k_TestFileFolder);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
@@ -137,7 +137,7 @@ namespace GLTFast.Tests
 
             writer.AddMeshToNode((int)nodeId, cylinderMesh, new[] { materialId }, null);
             writer.AddScene(nodes.ToArray());
-            await writer.SaveToFileAndDispose(path);
+            await writer.SaveToFileAndDisposeInternal(path, true);
         }
 
         static async Task CreateGltfFlatHierarchy(string path, int nodeCount, GltfFormat format)
@@ -164,7 +164,7 @@ namespace GLTFast.Tests
                 }
             }
             writer.AddScene(nodes.ToArray());
-            await writer.SaveToFileAndDispose(path);
+            await writer.SaveToFileAndDisposeInternal(path, true);
         }
 
         static async Task CreateGltfBigCylinderMesh(string path, uint triangleCount, GltfFormat format)
@@ -183,7 +183,7 @@ namespace GLTFast.Tests
                 null
                 );
             writer.AddScene(new[] { nodeId });
-            await writer.SaveToFileAndDispose(path);
+            await writer.SaveToFileAndDisposeInternal(path, true);
         }
     }
 }
