@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - NotSupportedException when loading a glTF-Binary file with excess length (fixes [#786](https://github.com/atteneder/glTFast/issues/786)).
 - (Documentation) Clarified how to add export shader variants.
 - (Test) Fixed generated test glTFs by exporting them in synchronous mode (only available internally).
+- (Importer) Synchronization Context is now properly reset after an exception (thanks [Bruno](https://github.com/bruno1308) for [#29](https://github.com/Unity-Technologies/com.unity.cloud.gltfast/pull/29)).
 - Removed compiler warning when `GLTFAST_SAFE` scripting define is active.
 
 ### Removed
