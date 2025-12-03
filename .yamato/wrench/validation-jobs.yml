@@ -61,11 +61,15 @@ validate_-_cloud_gltfast_-_2022_3_-_macos:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -129,11 +133,15 @@ validate_-_cloud_gltfast_-_2022_3_-_ubuntu:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -197,11 +205,15 @@ validate_-_cloud_gltfast_-_2022_3_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -265,11 +277,15 @@ validate_-_cloud_gltfast_-_2022_3_67f2_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -333,11 +349,15 @@ validate_-_cloud_gltfast_-_6000_0_-_macos:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -401,11 +421,15 @@ validate_-_cloud_gltfast_-_6000_0_-_ubuntu:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -469,11 +493,15 @@ validate_-_cloud_gltfast_-_6000_0_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -537,11 +565,15 @@ validate_-_cloud_gltfast_-_6000_2_-_macos:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -605,11 +637,15 @@ validate_-_cloud_gltfast_-_6000_2_-_ubuntu:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -673,11 +709,15 @@ validate_-_cloud_gltfast_-_6000_2_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -741,11 +781,15 @@ validate_-_cloud_gltfast_-_6000_3_-_macos:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -809,11 +853,15 @@ validate_-_cloud_gltfast_-_6000_3_-_ubuntu:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -877,11 +925,15 @@ validate_-_cloud_gltfast_-_6000_3_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -945,11 +997,15 @@ validate_-_cloud_gltfast_-_6000_4_-_macos:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -1013,11 +1069,15 @@ validate_-_cloud_gltfast_-_6000_4_-_ubuntu:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -1081,11 +1141,15 @@ validate_-_cloud_gltfast_-_6000_4_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -1149,11 +1213,15 @@ validate_-_cloud_gltfast_-_6000_5_-_macos:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -1217,11 +1285,15 @@ validate_-_cloud_gltfast_-_6000_5_-_ubuntu:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 
@@ -1285,11 +1357,15 @@ validate_-_cloud_gltfast_-_6000_5_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
     UPMPVP_ACK_UPMPVP_DOES_NO_API_VALIDATION: 1
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
   labels:
   - Packages:cloud.gltfast
 

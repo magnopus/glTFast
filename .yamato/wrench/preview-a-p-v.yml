@@ -25,7 +25,7 @@ all_preview_apv_jobs:
   - path: .yamato/wrench/preview-a-p-v.yml#preview_apv_-_6000_5_-_windows
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 2022.3 manifest (MacOS).
 preview_apv_-_2022_3_-_macos:
@@ -76,10 +76,14 @@ preview_apv_-_2022_3_-_macos:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 2022.3 manifest (Ubuntu).
 preview_apv_-_2022_3_-_ubuntu:
@@ -130,10 +134,14 @@ preview_apv_-_2022_3_-_ubuntu:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 2022.3 manifest (Windows).
 preview_apv_-_2022_3_-_windows:
@@ -185,10 +193,14 @@ preview_apv_-_2022_3_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.0 manifest (MacOS).
 preview_apv_-_6000_0_-_macos:
@@ -239,10 +251,14 @@ preview_apv_-_6000_0_-_macos:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.0 manifest (Ubuntu).
 preview_apv_-_6000_0_-_ubuntu:
@@ -293,10 +309,14 @@ preview_apv_-_6000_0_-_ubuntu:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.0 manifest (Windows).
 preview_apv_-_6000_0_-_windows:
@@ -348,10 +368,14 @@ preview_apv_-_6000_0_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.2 manifest (MacOS).
 preview_apv_-_6000_2_-_macos:
@@ -402,10 +426,14 @@ preview_apv_-_6000_2_-_macos:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.2 manifest (Ubuntu).
 preview_apv_-_6000_2_-_ubuntu:
@@ -456,10 +484,14 @@ preview_apv_-_6000_2_-_ubuntu:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.2 manifest (Windows).
 preview_apv_-_6000_2_-_windows:
@@ -511,10 +543,14 @@ preview_apv_-_6000_2_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.3 manifest (MacOS).
 preview_apv_-_6000_3_-_macos:
@@ -565,10 +601,14 @@ preview_apv_-_6000_3_-_macos:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.3 manifest (Ubuntu).
 preview_apv_-_6000_3_-_ubuntu:
@@ -619,10 +659,14 @@ preview_apv_-_6000_3_-_ubuntu:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.3 manifest (Windows).
 preview_apv_-_6000_3_-_windows:
@@ -674,10 +718,14 @@ preview_apv_-_6000_3_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.4 manifest (MacOS).
 preview_apv_-_6000_4_-_macos:
@@ -728,10 +776,14 @@ preview_apv_-_6000_4_-_macos:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.4 manifest (Ubuntu).
 preview_apv_-_6000_4_-_ubuntu:
@@ -782,10 +834,14 @@ preview_apv_-_6000_4_-_ubuntu:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.4 manifest (Windows).
 preview_apv_-_6000_4_-_windows:
@@ -837,10 +893,14 @@ preview_apv_-_6000_4_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.5 manifest (MacOS).
 preview_apv_-_6000_5_-_macos:
@@ -891,10 +951,14 @@ preview_apv_-_6000_5_-_macos:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.5 manifest (Ubuntu).
 preview_apv_-_6000_5_-_ubuntu:
@@ -945,10 +1009,14 @@ preview_apv_-_6000_5_-_ubuntu:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
 # Functional tests for dependents found in the latest 6000.5 manifest (Windows).
 preview_apv_-_6000_5_-_windows:
@@ -1000,8 +1068,12 @@ preview_apv_-_6000_5_-_windows:
   dependencies:
   - path: .yamato/wrench/package-pack-jobs.yml#package_pack_-_cloud_gltfast
   variables:
-    UPMPVP_CONTEXT_WRENCH: 1.3.0.0
+    UNITY_LICENSING_SERVER_BASE_URL: http://unity-ci-licenses.hq.unity3d.com:8080/
+    UNITY_LICENSING_SERVER_DELETE_NUL: 0
+    UNITY_LICENSING_SERVER_DELETE_ULF: 0
+    UNITY_LICENSING_SERVER_TOOLSET: pro
+    UPMPVP_CONTEXT_WRENCH: 1.4.3.0
   metadata:
     Job Maintainers: '#rm-packageworks'
-    Wrench: 1.3.0.0
+    Wrench: 1.4.3.0
 
