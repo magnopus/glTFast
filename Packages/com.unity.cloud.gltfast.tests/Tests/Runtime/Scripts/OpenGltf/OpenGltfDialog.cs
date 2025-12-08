@@ -51,7 +51,9 @@ namespace GLTFast.Tests
 
         GltfImport m_Gltf;
 
-#if !UNITY_ENTITIES_GRAPHICS
+#if UNITY_ENTITIES_GRAPHICS
+        Entity m_SceneRoot;
+#else
         GameObjectSceneInstance m_SceneInstance;
 #endif
 
@@ -129,7 +131,9 @@ namespace GLTFast.Tests
             if (success)
             {
 #if UNITY_ENTITIES_GRAPHICS
-                var instantiator = new EntityInstantiator(m_Gltf, Entity.Null, logger, instantiationSettings);
+                var world = World.DefaultGameObjectInjectionWorld;
+                m_SceneRoot = EntityUtils.CreateSceneRootEntity(world, filename);
+                var instantiator = new EntityInstantiator(m_Gltf, m_SceneRoot, logger, instantiationSettings);
 #else
                 var instantiator = new GameObjectBoundsInstantiator(m_Gltf, transform, logger, instantiationSettings);
 #endif
@@ -162,6 +166,15 @@ namespace GLTFast.Tests
 
         async Task Clear()
         {
+#if UNITY_ENTITIES_GRAPHICS
+            if (m_SceneRoot != Entity.Null)
+            {
+                var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+                EntityUtils.DestroyChildren(ref m_SceneRoot, ref entityManager);
+                entityManager.DestroyEntity(m_SceneRoot);
+                m_SceneRoot = Entity.Null;
+            }
+#endif
             await Task.Yield();
             m_Gltf?.Dispose();
         }

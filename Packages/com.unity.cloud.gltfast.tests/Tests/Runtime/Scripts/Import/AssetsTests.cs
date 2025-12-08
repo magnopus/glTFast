@@ -10,16 +10,33 @@ using GLTFast.Logging;
 using NUnit.Framework;
 #if UNITY_ENTITIES_GRAPHICS
 using Unity.Entities;
-using Unity.Transforms;
 #endif
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace GLTFast.Tests.Import
 {
     [TestFixture, Category("Import")]
     class AssetsTests
     {
+#if UNITY_ENTITIES_GRAPHICS
+        static World s_World;
+        static Entity s_SceneRoot;
+
+        [OneTimeSetUp]
+        public void OneTimeSetup()
+        {
+            s_World = World.DefaultGameObjectInjectionWorld;
+            s_SceneRoot = EntityUtils.CreateSceneRootEntity(s_World);
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            var entityManager = s_World.EntityManager;
+            entityManager.DestroyEntity(s_SceneRoot);
+        }
+#endif // UNITY_ENTITIES_GRAPHICS
+
         [GltfTestCase("glTF-test-models", 58)]
         public IEnumerator GltfTestModels(GltfTestCaseSet testCaseSet, GltfTestCase testCase)
         {
@@ -111,35 +128,44 @@ namespace GLTFast.Tests.Import
 
         internal static async Task RunTestCase(GltfTestCaseSet testCaseSet, GltfTestCase testCase)
         {
+
+            AssertRequiredExtensions(testCase.requiredExtensions);
+            var deferAgent = new UninterruptedDeferAgent();
+            var loadLogger = new CollectingLogger();
+            var path = Path.Combine(testCaseSet.RootPath, testCase.relativeUri);
+            Debug.Log($"Loading {testCase} from {path}");
+
+            using var gltf = new GltfImport(deferAgent: deferAgent, logger: loadLogger);
+            var success = await gltf.Load(path);
+            if (success ^ !testCase.expectLoadFail)
+            {
+                AssertLoggers(new[] { loadLogger }, testCase);
+                if (success)
+                {
+                    throw new AssertionException("glTF import unexpectedly succeeded!");
+                }
+
+                throw new AssertionException("glTF import failed!");
+            }
+
+            if (!success)
+            {
+                AssertLoggers(new[] { loadLogger }, testCase);
+                return;
+            }
+            var instantiateLogger = new CollectingLogger();
+
+#if !UNITY_ENTITIES_GRAPHICS
             var go = new GameObject();
+#endif
             try
             {
-                AssertRequiredExtensions(testCase.requiredExtensions);
-                var deferAgent = new UninterruptedDeferAgent();
-                var loadLogger = new CollectingLogger();
-                var path = Path.Combine(testCaseSet.RootPath, testCase.relativeUri);
-                Debug.Log($"Loading {testCase} from {path}");
-
-                using var gltf = new GltfImport(deferAgent: deferAgent, logger: loadLogger);
-                var success = await gltf.Load(path);
-                if (success ^ !testCase.expectLoadFail)
-                {
-                    AssertLoggers(new[] { loadLogger }, testCase);
-                    if (success)
-                    {
-                        throw new AssertionException("glTF import unexpectedly succeeded!");
-                    }
-
-                    throw new AssertionException("glTF import failed!");
-                }
-
-                if (!success)
-                {
-                    AssertLoggers(new[] { loadLogger }, testCase);
-                    return;
-                }
-                var instantiateLogger = new CollectingLogger();
-                var instantiator = CreateInstantiator(gltf, instantiateLogger, go.transform);
+                var instantiator =
+#if UNITY_ENTITIES_GRAPHICS
+                    new EntityInstantiator(gltf, s_SceneRoot, instantiateLogger);
+#else
+                    new GameObjectInstantiator(gltf, go.transform, instantiateLogger);
+#endif
                 success = await gltf.InstantiateMainSceneAsync(instantiator);
                 if (!success)
                 {
@@ -147,10 +173,18 @@ namespace GLTFast.Tests.Import
                     throw new AssertionException("glTF instantiation failed");
                 }
                 AssertLoggers(new[] { loadLogger, instantiateLogger }, testCase);
+#if UNITY_ENTITIES_GRAPHICS
+                await Task.Yield();
+#endif
             }
             finally
             {
-                Object.Destroy(go);
+#if !UNITY_ENTITIES_GRAPHICS
+                UnityEngine.Object.Destroy(go);
+#else
+                var entityManager = s_World.EntityManager;
+                EntityUtils.DestroyChildren(ref s_SceneRoot, ref entityManager);
+#endif
             }
         }
 
@@ -170,25 +204,6 @@ namespace GLTFast.Tests.Import
                     }
                 }
             }
-        }
-
-        internal static IInstantiator CreateInstantiator(
-            IGltfReadable gltf,
-            ICodeLogger logger,
-            Transform transform
-            )
-        {
-#if UNITY_ENTITIES_GRAPHICS
-            var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-            var sceneArchetype = entityManager.CreateArchetype(
-                typeof(LocalTransform),
-                typeof(LocalToWorld)
-            );
-            var sceneRoot = entityManager.CreateEntity(sceneArchetype);
-            return new EntityInstantiator(gltf, sceneRoot, logger);
-#else
-            return new GameObjectInstantiator(gltf, transform, logger);
-#endif
         }
 
         internal static void AssertLogItems(IEnumerable<LogItem> logItems, GltfTestCase testCase)

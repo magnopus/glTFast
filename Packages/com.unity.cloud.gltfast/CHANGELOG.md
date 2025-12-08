@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Assigned glTF logo to [GltfEntityAsset](xref:GLTFast.GltfEntityAsset) component.
 - (Test) Test glTF asset *CylinderWithMaterial* that's procedurally generated at runtime.
 - (Test) Tests for documentation examples.
 - (Test) `OpenGltfScene` improvements.
@@ -19,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Can load via [EntityInstantiator](xref:GLTFast.EntityInstantiator).
 
 ### Changed
+- (Entities) Entities of a scene are grouped via `LinkedEntityGroup`.
 - (Performance) Import mesh indices as unsigned integers and don't convert to signed integers anymore.
 - (Performance) Limited copy buffer size, so that garbage allocations do not scale with glTF-Binary content size anymore (when loading from file or `Stream`).
 - (Performance) Large glTF-Binary content is now loaded into memory in smaller chunks, which keeps the frame rate smooth (when loading from file or `Stream`).
@@ -35,6 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - (Importer) Synchronization Context is now properly reset after an exception (thanks [Bruno](https://github.com/bruno1308) for [#29](https://github.com/Unity-Technologies/com.unity.cloud.gltfast/pull/29)).
 - Removed compiler warning when `GLTFAST_SAFE` scripting define is active.
 - (Test) Stabilize tests by executing `LogAssert.Expect` before actual tests.
+- (Entities) Sub-meshes are rendered properly.
+- (Test) Tests destroy the glTF entities before disposing meshes/materials to avoid batch rendering errors.
 
 ### Removed
 

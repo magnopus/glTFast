@@ -11,13 +11,18 @@ using System.IO;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using GLTFast.Logging;
 using Unity.Collections;
+#if UNITY_ENTITIES_GRAPHICS
+using Unity.Entities;
+#endif
 #if USE_WEB_REQUEST
 using UnityEngine.Networking;
 #endif
 using UnityEngine.TestTools;
+#if !UNITY_ENTITIES_GRAPHICS
+using Object = UnityEngine.Object;
+#endif
 
 namespace GLTFast.Tests.Import
 {
@@ -49,6 +54,25 @@ namespace GLTFast.Tests.Import
             Main,
             MainAndFirst
         }
+
+#if UNITY_ENTITIES_GRAPHICS
+        static World s_World;
+        static Entity s_SceneRoot;
+
+        [OneTimeSetUp]
+        public void OneTimeSetup()
+        {
+            s_World = World.DefaultGameObjectInjectionWorld;
+            s_SceneRoot = EntityUtils.CreateSceneRootEntity(s_World);
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            var entityManager = s_World.EntityManager;
+            entityManager.DestroyEntity(s_SceneRoot);
+        }
+#endif // UNITY_ENTITIES_GRAPHICS
 
         [GltfTestCase("glTF-test-models", 2, k_RelativeUriFilter)]
         public IEnumerator LoadString(GltfTestCaseSet testCaseSet, GltfTestCase testCase)
@@ -161,7 +185,9 @@ namespace GLTFast.Tests.Import
         {
             var path = Path.Combine(testCaseSet.RootPath, testCase.relativeUri);
             Debug.Log($"Testing {path}");
+#if !UNITY_ENTITIES_GRAPHICS
             var go = new GameObject();
+#endif
             var deferAgent = new UninterruptedDeferAgent();
             var logger = new ConsoleLogger();
             using var gltf = new GltfImport(deferAgent: deferAgent, logger: logger);
@@ -211,7 +237,12 @@ namespace GLTFast.Tests.Import
                     throw new ArgumentOutOfRangeException(nameof(loadType), loadType, null);
             }
             Assert.IsTrue(success);
-            var instantiator = AssetsTests.CreateInstantiator(gltf, logger, go.transform);
+            var instantiator =
+#if UNITY_ENTITIES_GRAPHICS
+                new EntityInstantiator(gltf, s_SceneRoot, logger);
+#else
+                new GameObjectInstantiator(gltf, go.transform, logger);
+#endif
             switch (instantiationType)
             {
                 case InstantiationType.Main:
@@ -224,17 +255,37 @@ namespace GLTFast.Tests.Import
 #pragma warning restore CS0618
                     break;
                 case InstantiationType.MainAndFirst:
+#if !UNITY_ENTITIES_GRAPHICS
                     success = await gltf.InstantiateMainSceneAsync(go.transform);
                     Assert.IsTrue(success);
                     var firstSceneGameObject = new GameObject("firstScene");
                     success = await gltf.InstantiateSceneAsync(firstSceneGameObject.transform);
                     Assert.IsTrue(success);
+#else
+                    success = await gltf.InstantiateMainSceneAsync(instantiator);
+                    Assert.IsTrue(success);
+                    var firstScene = EntityUtils.CreateSceneRootEntity(s_World, "firstScene");
+                    var firstSceneInstantiator = new EntityInstantiator(gltf, firstScene, logger);
+                    success = await gltf.InstantiateSceneAsync(firstSceneInstantiator);
+                    await Task.Yield();
+                    var tmpEntityManager = s_World.EntityManager;
+                    EntityUtils.DestroyChildren(ref firstScene, ref tmpEntityManager);
+                    tmpEntityManager.DestroyEntity(firstScene);
+                    Assert.IsTrue(success);
+#endif
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(instantiationType), instantiationType, null);
             }
             Assert.IsTrue(success);
+
+#if UNITY_ENTITIES_GRAPHICS
+            await Task.Yield();
+            var entityManager = s_World.EntityManager;
+            EntityUtils.DestroyChildren(ref s_SceneRoot, ref entityManager);
+#else
             Object.Destroy(go);
+#endif
         }
 
         // TODO: Remove pragma, as is is required for 2020 LTS and earlier only.

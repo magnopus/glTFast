@@ -8,10 +8,15 @@ using System.Threading.Tasks;
 using GLTFast.Logging;
 using GLTFast.Tests.Import;
 using NUnit.Framework;
+#if UNITY_ENTITIES_GRAPHICS
+using Unity.Entities;
+#endif
 using Unity.PerformanceTesting;
 using UnityEngine;
 using UnityEngine.TestTools;
+#if !UNITY_ENTITIES_GRAPHICS
 using Object = UnityEngine.Object;
+#endif
 
 namespace GLTFast.Tests
 {
@@ -19,6 +24,25 @@ namespace GLTFast.Tests
     class ImportPerformanceTests : IPrebuildSetup
     {
         const int k_Repetitions = 10;
+
+#if UNITY_ENTITIES_GRAPHICS
+        static World s_World;
+        static Entity s_SceneRoot;
+
+        [OneTimeSetUp]
+        public void OneTimeSetup()
+        {
+            s_World = World.DefaultGameObjectInjectionWorld;
+            s_SceneRoot = EntityUtils.CreateSceneRootEntity(s_World);
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            var entityManager = s_World.EntityManager;
+            entityManager.DestroyEntity(s_SceneRoot);
+        }
+#endif // UNITY_ENTITIES_GRAPHICS
 
         [UnityTest, Performance]
         public IEnumerator FlatHierarchy()
@@ -113,7 +137,9 @@ namespace GLTFast.Tests
 
         static async Task RunTest(Func<GltfImportBase, Task<bool>> loadFunction)
         {
+#if !UNITY_ENTITIES_GRAPHICS
             var go = new GameObject();
+#endif
             var loadLogger = new CollectingLogger();
 
             using var gltf = new GltfImport(logger: loadLogger);
@@ -127,14 +153,31 @@ namespace GLTFast.Tests
             Assert.IsTrue(success);
 
             var instantiateLogger = new CollectingLogger();
-            var instantiator = AssetsTests.CreateInstantiator(gltf, instantiateLogger, go.transform);
-            success = await gltf.InstantiateMainSceneAsync(instantiator);
-            if (!success)
+            var instantiator =
+#if UNITY_ENTITIES_GRAPHICS
+                new EntityInstantiator(gltf, s_SceneRoot, instantiateLogger);
+#else
+                new GameObjectInstantiator(gltf, go.transform, instantiateLogger);
+#endif
+            try
             {
-                instantiateLogger.LogAll();
-                throw new AssertionException("glTF instantiation failed");
+                success = await gltf.InstantiateMainSceneAsync(instantiator);
+                if (!success)
+                {
+                    instantiateLogger.LogAll();
+                    throw new AssertionException("glTF instantiation failed");
+                }
             }
-            Object.Destroy(go);
+            finally
+            {
+#if UNITY_ENTITIES_GRAPHICS
+                await Task.Yield();
+                var entityManager = s_World.EntityManager;
+                EntityUtils.DestroyChildren(ref s_SceneRoot, ref entityManager);
+#else
+                Object.Destroy(go);
+#endif
+            }
         }
 
         static async Task TestWrapper(Func<Task> action, int repeat, int warmup = 1)
