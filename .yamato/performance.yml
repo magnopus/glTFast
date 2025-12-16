@@ -18,14 +18,14 @@ performance_2022_3_win:
     logs:
       paths:
       - test-results~/**/*
-performance_6000_2_win:
-  name: Performance_6000.2_Win
+performance_6000_0_win:
+  name: Performance_6000.0_Win
   agent:
     image: package-ci/win11:v4
     type: Unity::VM
     flavor: b1.large
   commands:
-  - command: unity-downloader-cli --unity-version 6000.2 --path Editor --wait -c editor -c il2cpp
+  - command: unity-downloader-cli --unity-version 6000.0 --path Editor --wait -c editor -c il2cpp
     timeout: 10
     retries: 3
   - command: Editor\Unity.exe -projectPath Projects/glTFast-Test -batchmode -nographics -executeMethod GLTFast.Editor.Tests.SetupProject.ApplySetup glTFastSetup:performance -upmNoDefaultPackages -logfile test-results~/enable-performance-tests.log -quit
@@ -96,7 +96,7 @@ performance_all:
   name: Performance_All
   dependencies:
   - path: .yamato/performance.yml#performance_2022_3_win
-  - path: .yamato/performance.yml#performance_6000_2_win
+  - path: .yamato/performance.yml#performance_6000_0_win
   - path: .yamato/performance.yml#performance_6000_3_win
   - path: .yamato/performance.yml#performance_6000_4_win
   - path: .yamato/performance.yml#performance_6000_5_win
