@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 ### Deprecated
+- Access to glTF images via [IGltfReadable.ImageCount](xref:GLTFast.IGltfReadable.ImageCount) and [IGltfReadable.GetImage](xref:GLTFast.IGltfReadable.GetImage*). This has not been used internally and was unreliable. Please access glTF textures instead (see [TextureCount](xref:GLTFast.IGltfReadable.TextureCount) and [GetTexture](xref:GLTFast.IGltfReadable.GetTexture*)).
 
 ### Security
 
