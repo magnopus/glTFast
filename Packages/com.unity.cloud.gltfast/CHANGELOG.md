@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- [GltfAsset](xref:GLTFast.GltfAsset) property setters to allow change of behavior from script.
+  - [PlayAutomatically](xref:GLTFast.GltfAsset.PlayAutomatically).
+  - [SceneId](xref:GLTFast.GltfAsset.SceneId).
 
 ### Changed
 

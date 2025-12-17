@@ -38,6 +38,23 @@ namespace GLTFast.Tests.Import
             yield return Utils.WaitForTask(task);
         }
 
+        [GltfTestCase("glTF-test-models", 1, k_AnimatedTestAsset)]
+        public IEnumerator GltfAssetTweak(GltfTestCaseSet testCaseSet, GltfTestCase testCase)
+        {
+            var task = LoadGltfViaComponent<GltfAsset>(
+                Path.Combine(testCaseSet.RootPath, testCase.relativeUri),
+                asset =>
+                {
+                    Assert.AreEqual(-1, asset.SceneId);
+                    Assert.IsTrue(asset.PlayAutomatically);
+                    asset.SceneId = 0;
+                    asset.PlayAutomatically = false;
+                    asset.LoadOnStartup = false;
+                }
+            );
+            yield return Utils.WaitForTask(task);
+        }
+
         [GltfTestCase("glTF-test-models", 1, k_TestAsset)]
         public IEnumerator GltfBoundsAsset(GltfTestCaseSet testCaseSet, GltfTestCase testCase)
         {
