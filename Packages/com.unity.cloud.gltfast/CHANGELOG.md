@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+### Deprecated
+
+### Security
+
+## [6.16.0] - 2026-01-20
+
+### Added
 - [GltfAsset](xref:GLTFast.GltfAsset) property setters to allow change of behavior from script.
   - [PlayAutomatically](xref:GLTFast.GltfAsset.PlayAutomatically).
   - [SceneId](xref:GLTFast.GltfAsset.SceneId).
@@ -18,19 +32,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [BuiltInMaterialGenerator.FindShaderUnlit](xref:GLTFast.Materials.BuiltInMaterialGenerator.FindShaderUnlit).
   - [ShaderGraphMaterialGenerator.LoadShaderByName](xref:GLTFast.Materials.ShaderGraphMaterialGenerator.LoadShaderByName(System.String)).
 
-### Changed
-
 ### Fixed
 - Emission color (emissiveFactor) is now in correct color space for shader graphs and built-in shaders.
 - Normal map scale on shader graphs.
 - (Export) Avoid creating empty ORM textures if no smoothness texture is assigned (fixes [#801](https://github.com/atteneder/glTFast/issues/801)).
 
-### Removed
-
 ### Deprecated
 - Access to glTF images via [IGltfReadable.ImageCount](xref:GLTFast.IGltfReadable.ImageCount) and [IGltfReadable.GetImage](xref:GLTFast.IGltfReadable.GetImage*). This has not been used internally and was unreliable. Please access glTF textures instead (see [TextureCount](xref:GLTFast.IGltfReadable.TextureCount) and [GetTexture](xref:GLTFast.IGltfReadable.GetTexture*)).
-
-### Security
 
 ## [6.15.1] - 2025-12-09
 
