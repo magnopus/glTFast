@@ -154,9 +154,6 @@ half Alpha(float2 uv)
     return baseColorFactor.a;
 #else
     half alpha = tex2D(baseColorTexture, uv).a;
-#ifndef UNITY_COLORSPACE_GAMMA
-    alpha = GammaToLinearSpace(alpha);
-#endif
     return alpha * baseColorFactor.a;
 #endif
 }

@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [GltfImport.InstantiateSceneAsync](xref:GLTFast.GltfImportBase.InstantiateSceneAsync*) properly handles an invalid scene index parameter.
 - [GltfImport](xref:GLTFast.GltfImportBase) waits for downloads to complete before attempting disposal during cancellation.
 - Projects depending on an outdated version of [meshoptimizer mesh compression for Unity] may suppress the corresponding compiler error by using the `GLTFAST_IGNORE_MESHOPT_OUTDATED_ERROR` scripting define symbol.
+- (Shader) Incorrect alpha blending/clipping due to invalid color space conversion on the base color map alpha and vertex color alpha values (affected shader graphs only; fixes [#800](https://github.com/atteneder/glTFast/issues/800)).
+- (Shader) Built-in render pipeline shaders metallic-roughness and specular-glossiness now factor in vertex color alpha values.
+- (Shader) All built-in render pipeline shaders apply vertex color alpha values linearly.
 
 ### Removed
 
