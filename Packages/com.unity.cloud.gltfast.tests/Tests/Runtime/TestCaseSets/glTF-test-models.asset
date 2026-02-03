@@ -35,6 +35,11 @@ MonoBehaviour:
     expectInstantiationFail: 0
     expectedLogCodes: 
     requiredExtensions: 
+  - relativeUri: EmptyScene/EmptyScene.gltf
+    expectLoadFail: 0
+    expectInstantiationFail: 0
+    expectedLogCodes: 
+    requiredExtensions: 
   - relativeUri: ExtrasData/ExtrasData.gltf
     expectLoadFail: 0
     expectInstantiationFail: 0

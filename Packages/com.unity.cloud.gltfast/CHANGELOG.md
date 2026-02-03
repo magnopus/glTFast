@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- (Test) *Empty Scene* test asset.
 
 ### Changed
 - [GltfImport.Load](xref:GLTFast.GltfImportBase.Load*), [GltfImport.InstantiateSceneAsync](xref:GLTFast.GltfImportBase.InstantiateSceneAsync*) and their variants now throw an `OperationCanceledException` when cancelled before completion.
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - (Export) Smoothness value property is exported correctly across more combination of settings for Universal Render Pipeline Lit shader based materials (fixes [#795](https://github.com/atteneder/glTFast/issues/795) and [796](https://github.com/atteneder/glTFast/issues/796)).
 - (Export) When a Lit/Standard material has a smoothness texture, their smoothness value is baked into the resulting roughness channel (of the ORM map). This preserves the visual appearance, but is a lossy operation if the smoothness value is not `1.0` (fixes [#795](https://github.com/atteneder/glTFast/issues/795) and [796](https://github.com/atteneder/glTFast/issues/796)).
 - (Export) `MetaMaterialExportBuiltIn` is used for built-in material export (unless `GLTFAST_BUILTIN_SHADER_GRAPH` is set).
+- (Import) Solved exception when scenes with no nodes are loaded.
 
 ### Removed
 

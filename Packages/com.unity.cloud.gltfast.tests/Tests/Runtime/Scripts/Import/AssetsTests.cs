@@ -39,7 +39,7 @@ namespace GLTFast.Tests.Import
         }
 #endif // UNITY_ENTITIES_GRAPHICS
 
-        [GltfTestCase("glTF-test-models", 58)]
+        [GltfTestCase("glTF-test-models", 59)]
         public IEnumerator GltfTestModels(GltfTestCaseSet testCaseSet, GltfTestCase testCase)
         {
             yield return AsyncWrapper.WaitForTask(RunTestCase(testCaseSet, testCase));
