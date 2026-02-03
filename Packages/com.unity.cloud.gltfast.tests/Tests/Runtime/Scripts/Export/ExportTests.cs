@@ -59,6 +59,8 @@ namespace GLTFast.Tests.Export
 
 
 #if UNITY_EDITOR
+
+        [MenuItem("Tools/glTFast Test Tools/Update Export Scene Object Lists")]
         static void UpdateObjectLists()
         {
             CreateExportSceneObjectList(k_SceneNameBuiltIn);
@@ -167,7 +169,7 @@ namespace GLTFast.Tests.Export
 
         static string GetObjectListAssetPath(string sceneName)
         {
-            return $"Packages/{GltfGlobals.GltfPackageName}{k_ScenesPath}{sceneName}-ObjectList.txt";
+            return $"Packages/{GltfGlobals.GltfPackageName}.tests{k_ScenesPath}{sceneName}-ObjectList.txt";
         }
 
         static string[] GetRootObjectNamesFromScene(string sceneName)
@@ -238,14 +240,14 @@ namespace GLTFast.Tests.Export
         public void CheckObjectCountBuiltIn()
         {
             var names = GetRootObjectNamesFromStreamingAssets(k_SceneNameBuiltIn);
-            Assert.AreEqual(48, names.Length, $"Unexpected number of root level objects in scene {k_SceneNameBuiltIn}. If you've added test objects, update the expected number!");
+            Assert.AreEqual(51, names.Length, $"Unexpected number of root level objects in scene {k_SceneNameBuiltIn}. If you've added test objects, update the expected number!");
         }
 
         [Test]
         public void CheckObjectCountUniversal()
         {
             var names = GetRootObjectNamesFromStreamingAssets(k_SceneNameUniversal);
-            Assert.AreEqual(48, names.Length, $"Unexpected number of root level objects in scene {k_SceneNameUniversal}. If you've added test objects, update the expected number!");
+            Assert.AreEqual(51, names.Length, $"Unexpected number of root level objects in scene {k_SceneNameUniversal}. If you've added test objects, update the expected number!");
         }
 
         [Test]

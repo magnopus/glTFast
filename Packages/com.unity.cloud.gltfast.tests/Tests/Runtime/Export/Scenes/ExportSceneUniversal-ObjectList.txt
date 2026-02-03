@@ -24,12 +24,15 @@ EmissiveFactor
 EmissiveTexture
 EmissiveTextureFactor
 SmoothnessTexture
+SmoothnessTextureReduced
 MetallicTexture
 MetallicSmoothnessTexture
 MetallicSmoothnessOcclusionTexture
 BaseColorSmoothnessTexture
 BaseColorSmoothnessMetalTexture
 BaseColorSmoothnessMetalOcclusionTexture
+SmoothnessSourceAlbedoAlpha
+SmoothnessSourceAlbedoAlphaEmpty
 IdenticalTextureName
 WrapModeU
 WrapModeV

@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - [GltfImport.Load](xref:GLTFast.GltfImportBase.Load*), [GltfImport.InstantiateSceneAsync](xref:GLTFast.GltfImportBase.InstantiateSceneAsync*) and their variants now throw an `OperationCanceledException` when cancelled before completion.
+- Replaced the generic [StandardMaterialExport](xref:GLTFast.Export.StandardMaterialExport) with specializations.
+  - [LitMaterialExport](xref:GLTFast.Export.LitMaterialExport) for Universal Render Pipeline Lit shader material export.
+  - [BuiltInStandardMaterialExport](xref:GLTFast.Export.BuiltInStandardMaterialExport) for Built-in Render Pipeline Standard shader material export.
 
 ### Fixed
 - [GltfImport.InstantiateSceneAsync](xref:GLTFast.GltfImportBase.InstantiateSceneAsync*) properly handles an invalid scene index parameter.
@@ -19,10 +22,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - (Shader) Built-in render pipeline shaders metallic-roughness and specular-glossiness now factor in vertex color alpha values.
 - (Shader) All built-in render pipeline shaders apply vertex color alpha values linearly.
 - (Import) Removed remains of incorrectly signed integer indices.
+- (Export) Smoothness value property is exported correctly across more combination of settings for Universal Render Pipeline Lit shader based materials (fixes [#795](https://github.com/atteneder/glTFast/issues/795) and [796](https://github.com/atteneder/glTFast/issues/796)).
+- (Export) When a Lit/Standard material has a smoothness texture, their smoothness value is baked into the resulting roughness channel (of the ORM map). This preserves the visual appearance, but is a lossy operation if the smoothness value is not `1.0` (fixes [#795](https://github.com/atteneder/glTFast/issues/795) and [796](https://github.com/atteneder/glTFast/issues/796)).
+- (Export) `MetaMaterialExportBuiltIn` is used for built-in material export (unless `GLTFAST_BUILTIN_SHADER_GRAPH` is set).
 
 ### Removed
 
 ### Deprecated
+- Generic built-in/Universal render pipeline [StandardMaterialExport](xref:GLTFast.Export.StandardMaterialExport).
 
 ### Security
 
