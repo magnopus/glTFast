@@ -184,12 +184,13 @@ namespace GLTFast
         static MeshComparer s_MeshComparer = new MeshComparer();
 
         /// <summary>Logger used by this glTF import instance.</summary>
-        public ICodeLogger Logger { get; }
+        public ICodeLogger Logger => m_Context.Logger;
 
         /// <summary>Defer agent used by this glTF import instance.</summary>
-        public IDeferAgent DeferAgent { get; }
+        public IDeferAgent DeferAgent => m_Context.DeferAgent;
 
-        IDownloadProvider m_DownloadProvider;
+        ImportContext m_Context;
+
         IMaterialGenerator m_MaterialGenerator;
 
         Dictionary<Type, ImportAddonInstance> m_ImportInstances;
@@ -310,8 +311,6 @@ namespace GLTFast
             ICodeLogger logger = null
             )
         {
-            m_DownloadProvider = downloadProvider ?? new DefaultDownloadProvider();
-
             if (deferAgent == null)
             {
                 if (s_DefaultDeferAgent == null
@@ -325,15 +324,15 @@ namespace GLTFast
                     // Adding a DefaultDeferAgent component will make it un-register via <see cref="UnsetDefaultDeferAgent"/>
                     defaultDeferAgentGameObject.AddComponent<DefaultDeferAgent>();
                 }
-                DeferAgent = s_DefaultDeferAgent;
-            }
-            else
-            {
-                DeferAgent = deferAgent;
+                deferAgent = s_DefaultDeferAgent;
             }
             m_MaterialGenerator = materialGenerator ?? MaterialGenerator.GetDefaultMaterialGenerator();
 
-            Logger = logger;
+            m_Context = new ImportContext(
+                downloadProvider ?? new DefaultDownloadProvider(),
+                logger,
+                deferAgent
+                );
 
             ImportAddonRegistry.InjectAllAddons(this);
         }
@@ -947,13 +946,13 @@ namespace GLTFast
         {
 #if UNITY_EDITOR
             if (defaultMaterial == null) {
-                m_MaterialGenerator.SetLogger(Logger);
+                m_MaterialGenerator.SetLogger(m_Context.Logger);
                 defaultMaterial = m_MaterialGenerator.GetDefaultMaterial(m_DefaultMaterialPointsSupport);
                 m_MaterialGenerator.SetLogger(null);
             }
             return defaultMaterial;
 #else
-            m_MaterialGenerator.SetLogger(Logger);
+            m_MaterialGenerator.SetLogger(m_Context.Logger);
             var material = m_MaterialGenerator.GetDefaultMaterial(m_DefaultMaterialPointsSupport);
             m_MaterialGenerator.SetLogger(null);
             return material;
@@ -1287,7 +1286,7 @@ namespace GLTFast
             {
                 cancellationToken.ThrowIfCancellationRequestedWithTracking();
 
-                download = await m_DownloadProvider.Request(url);
+                download = await m_Context.DownloadProvider.Request(url);
                 success = download.Success;
 
                 cancellationToken.ThrowIfCancellationRequestedWithTracking();
@@ -2113,7 +2112,7 @@ namespace GLTFast
             {
                 m_DownloadTasks = new Dictionary<int, Task<IDownload>>();
             }
-            m_DownloadTasks.Add(index, m_DownloadProvider.Request(url));
+            m_DownloadTasks.Add(index, m_Context.DownloadProvider.Request(url));
             Profiler.EndSample();
         }
 
@@ -2169,7 +2168,7 @@ namespace GLTFast
             if (isKtx)
             {
 #if KTX_IS_ENABLED
-                var downloadTask = m_DownloadProvider.Request(url);
+                var downloadTask = m_Context.DownloadProvider.Request(url);
                 if(m_KtxDownloadTasks==null) {
                     m_KtxDownloadTasks = new Dictionary<int, Task<IDownload>>();
                 }
@@ -2184,8 +2183,8 @@ namespace GLTFast
             {
 #if UNITY_IMAGECONVERSION
                 var downloadTask = LoadImageFromBytes(imageIndex)
-                    ? (TextureDownloadBase) new TextureDownload<IDownload>(m_DownloadProvider.Request(url))
-                    : new TextureDownload<ITextureDownload>(m_DownloadProvider.RequestTexture(url,nonReadable));
+                    ? (TextureDownloadBase) new TextureDownload<IDownload>(m_Context.DownloadProvider.Request(url))
+                    : new TextureDownload<ITextureDownload>(m_Context.DownloadProvider.RequestTexture(url,nonReadable));
                 if(m_TextureDownloadTasks==null) {
                     m_TextureDownloadTasks = new Dictionary<int, TextureDownloadBase>();
                 }
@@ -2850,7 +2849,7 @@ namespace GLTFast
 
                 await DeferAgent.BreakPoint(.0001f);
                 Profiler.BeginSample("GenerateMaterial");
-                m_MaterialGenerator.SetLogger(Logger);
+                m_MaterialGenerator.SetLogger(m_Context.Logger);
                 var pointsSupport = GetMaterialPointsSupport(i);
                 var material = m_MaterialGenerator.GenerateMaterial(
                     Root.Materials[i],
