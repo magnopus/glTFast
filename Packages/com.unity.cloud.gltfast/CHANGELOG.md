@@ -32,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - (Import) Solved exception when scenes with no nodes are loaded.
 - (Import) Triangle fan meshes with the center vertex not being the first vertex import correctly now.
 - (Test) Graphics tests are more stable/consistent due to dedicated scene.
+- (Shader) Incorrect normal unpacking when using default normal map on Android (fixes [#791](https://github.com/atteneder/glTFast/issues/791) and [802](https://github.com/atteneder/glTFast/issues/802)).
+- (Export) Texture scaling not preserved on URP/Lit export (fixes [#805](https://github.com/atteneder/glTFast/issues/805)).
 
 ### Removed
 

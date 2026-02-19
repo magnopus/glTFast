@@ -57,6 +57,16 @@ namespace GLTFast.Export
                 }
             };
 
+            var mainTexProperty = MainTexProperty;
+            if (uMaterial.HasProperty(k_BaseMap))
+            {
+                mainTexProperty = k_BaseMap;
+            }
+            else if (uMaterial.HasProperty(k_ColorTexture))
+            {
+                mainTexProperty = k_ColorTexture;
+            }
+
             SetAlphaModeAndCutoff(uMaterial, material);
             material.doubleSided = IsDoubleSided(uMaterial, MaterialProperty.Cull);
 
@@ -90,7 +100,7 @@ namespace GLTFast.Export
                             material.emissiveTexture = ExportTextureInfo(emissionTex, gltf);
                             if (material.emissiveTexture != null)
                             {
-                                ExportTextureTransform(material.emissiveTexture, uMaterial, k_EmissionMap, gltf);
+                                ExportTextureTransform(material.emissiveTexture, uMaterial, mainTexProperty, gltf);
                             }
                         }
                         else
@@ -116,7 +126,7 @@ namespace GLTFast.Export
                         material.normalTexture = ExportNormalTextureInfo(normalTex, uMaterial, gltf, k_BumpScale);
                         if (material.normalTexture != null)
                         {
-                            ExportTextureTransform(material.normalTexture, uMaterial, k_BumpMap, gltf);
+                            ExportTextureTransform(material.normalTexture, uMaterial, mainTexProperty, gltf);
                         }
                     }
                     else
@@ -133,16 +143,6 @@ namespace GLTFast.Export
             Texture2D metalGlossTexture = null;
             Texture2D smoothnessTexture = null;
             var smoothnessFactor = 1.0f;
-
-            var mainTexProperty = MainTexProperty;
-            if (uMaterial.HasProperty(k_BaseMap))
-            {
-                mainTexProperty = k_BaseMap;
-            }
-            else if (uMaterial.HasProperty(k_ColorTexture))
-            {
-                mainTexProperty = k_ColorTexture;
-            }
 
             var needsMetalRoughTexture =
                 isPbrMetallicRoughness &&
@@ -237,7 +237,7 @@ namespace GLTFast.Export
                     if (material.pbrMetallicRoughness.MetallicRoughnessTexture != null)
                     {
                         material.PbrMetallicRoughness.MetallicRoughnessTexture.index = ormTextureId;
-                        ExportTextureTransform(material.PbrMetallicRoughness.MetallicRoughnessTexture, uMaterial, k_MetallicGlossMap, gltf);
+                        ExportTextureTransform(material.PbrMetallicRoughness.MetallicRoughnessTexture, uMaterial, mainTexProperty, gltf);
                     }
 
                     if (ormImageExport.HasOcclusion)
