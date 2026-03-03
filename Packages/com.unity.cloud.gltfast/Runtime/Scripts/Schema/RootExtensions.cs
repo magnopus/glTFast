@@ -19,6 +19,10 @@ namespace GLTFast.Schema
         // ReSharper disable once InconsistentNaming
         public MaterialsVariantsRootExtension KHR_materials_variants;
 
+        /// <inheritdoc cref="EpicLightmapTextures"/>
+        // ReSharper disable once InconsistentNaming
+        public EpicLightmapTextures EPIC_lightmap_textures;
+
         internal void GltfSerialize(JsonWriter writer)
         {
             writer.AddObject();
@@ -31,6 +35,11 @@ namespace GLTFast.Schema
             {
                 writer.AddProperty("KHR_materials_variants");
                 KHR_materials_variants.GltfSerialize(writer);
+            }
+            if (EPIC_lightmap_textures != null)
+            {
+                writer.AddProperty("EPIC_lightmap_textures");
+                EPIC_lightmap_textures.GltfSerialize(writer);
             }
             writer.Close();
         }
@@ -51,8 +60,14 @@ namespace GLTFast.Schema
                 KHR_materials_variants = null;
             }
 
+            if (EPIC_lightmap_textures != null && !EPIC_lightmap_textures.JsonUtilityCleanup())
+            {
+                EPIC_lightmap_textures = null;
+            }
+
             return KHR_lights_punctual != null
-                || KHR_materials_variants != null;
+                || KHR_materials_variants != null
+                || EPIC_lightmap_textures != null;
         }
     }
 }

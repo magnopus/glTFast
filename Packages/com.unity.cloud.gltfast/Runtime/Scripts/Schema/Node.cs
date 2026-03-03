@@ -168,9 +168,16 @@ namespace GLTFast.Schema
                 {
                     e.KHR_lights_punctual = null;
                 }
+                // Check if EPIC_lightmap_textures extension is valid
+                if ((e.EPIC_lightmap_textures?.lightmap ?? -1) < 0)
+                {
+                    e.EPIC_lightmap_textures = null;
+                }
                 // Unset `extension` if none of them was valid
                 if (e.EXT_mesh_gpu_instancing == null &&
-                    e.KHR_lights_punctual == null)
+                    e.KHR_lights_punctual == null &&
+                    e.EPIC_lightmap_textures == null
+                    )
                 {
                     UnsetExtensions();
                 }
@@ -193,6 +200,9 @@ namespace GLTFast.Schema
         /// <inheritdoc cref="LightsPunctual"/>
         public NodeLightsPunctual KHR_lights_punctual;
 
+        /// <inheritdoc cref="EpicLightmapNode"/>
+        public EpicLightmapNode EPIC_lightmap_textures;
+
         // Whenever an extension is added, the JsonParser
         // (specifically step four of JsonParser.ParseJson)
         // needs to be updated!
@@ -210,6 +220,11 @@ namespace GLTFast.Schema
             {
                 writer.AddProperty("KHR_lights_punctual");
                 KHR_lights_punctual.GltfSerialize(writer);
+            }
+            if (EPIC_lightmap_textures != null)
+            {
+                writer.AddProperty("EPIC_lightmap_textures");
+                EPIC_lightmap_textures.GltfSerialize(writer);
             }
             writer.Close();
         }

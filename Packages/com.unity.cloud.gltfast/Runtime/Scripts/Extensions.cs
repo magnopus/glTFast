@@ -69,6 +69,10 @@ namespace GLTFast
         /// <a href="https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Khronos/KHR_materials_specular">KHR_materials_specular</a> glTF extension
         /// </summary>
         MaterialsSpecular,
+        /// <summary>
+        /// <a href="https://github.com/magnopus/olympus-specs/blob/main/gltf-extensions/gltf-extensions.md#baked-lighting">EPIC_lightmap_textures</a> glTF extension
+        /// </summary>
+        EpicLightmapTextures,
     }
 
     /// <summary>
@@ -106,6 +110,8 @@ namespace GLTFast
         public const string MaterialsSpecular = "KHR_materials_specular";
         /// <inheritdoc cref="Extension.MaterialsVariants"/>
         public const string MaterialsVariants = "KHR_materials_variants";
+        /// <inheritdoc cref="Extension.EpicLightmapTextures"/>
+        public const string EpicLightmapTextures = "EPIC_lightmap_textures";
 
         /// <summary>
         /// Returns the official name of the glTF extension
@@ -146,6 +152,8 @@ namespace GLTFast
                     return MaterialsSpecular;
                 case Extension.MaterialsSheen:
                     return MaterialsSheen;
+                case Extension.EpicLightmapTextures:
+                    return EpicLightmapTextures; // Support for EPIC_lightmap_textures
                 default:
                     return null;
             }
