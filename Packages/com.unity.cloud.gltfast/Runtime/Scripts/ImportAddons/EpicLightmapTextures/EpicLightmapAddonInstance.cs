@@ -22,13 +22,11 @@ namespace GLTFast.Addons
             if (m_Gltf != null)
             {
                 m_Gltf.AddImportAddonInstance(this);
-                //Debug.Log($"EPIC Lightmap Addon injected and registered into GLTF Importer.");
             }
         }
 
         public override void Inject(IInstantiator instantiator)
         {
-            //Debug.Log($"EPIC Lightmap Addon injecting into Instantiator: {instantiator.GetType().Name}.");
             if (instantiator is GameObjectInstantiator goInstantiator)
             {
                 goInstantiator.MeshAdded += OnMeshAdded;
@@ -43,7 +41,6 @@ namespace GLTFast.Addons
                 var lightmapData = m_Gltf.GetNodeLightmap((int)nodeIndex);
                 if (lightmapData != null)
                 {
-                    //Debug.Log($"OnMeshAdded: Applying EPIC lightmap to GameObject '{gameObject.name}' for node index {nodeIndex}.", gameObject);
                     var renderer = gameObject.GetComponent<Renderer>();
                     if (renderer != null)
                     {
@@ -57,7 +54,6 @@ namespace GLTFast.Addons
         {
             if (data != null && data.texture != null)
             {
-                //Debug.Log($"ApplyEpicLightmap: texture index {data.texture.index} to renderer '{renderer.gameObject.name}'.", renderer.gameObject);
                 // Retrieve the texture referenced by the lightmap data
                 var lmTexture = m_Gltf.GetTexture(data.texture.index);
                 int texCoordIndex = data.texture.texCoord;
@@ -65,8 +61,6 @@ namespace GLTFast.Addons
                 // Only proceed if a valid texture is found
                 if (lmTexture != null && texCoordIndex >= 0)
                 {
-                    //Debug.Log($"ApplyEpicLightmap: Retrieved lightmap texture '{lmTexture.name}' (index {data.texture.index}) for renderer '{renderer.gameObject.name}', sRGB: {lmTexture.graphicsFormat}", lmTexture);
-
                     var mats = renderer.sharedMaterials;
                     if(mats == null || mats.Length <= 0)
                     {

@@ -7,13 +7,14 @@ namespace GLTFast.Addons
     /// </summary>
     public class EpicLightmapAddon : ImportAddon<EpicLightmapAddonInstance>
     {
-        /// <summary>
-        /// Automatically registers the addon when the application loads.
-        /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        static void Register()
-        {
-            ImportAddonRegistry.RegisterImportAddon(new EpicLightmapAddon());
-        }
+        // Note: Disable for now as oko package currently rely on gltfutility shader with different shader property names for epic lightmap.
+        ///// <summary>
+        ///// Automatically registers the addon when the application loads.
+        ///// </summary>
+        //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        //static void Register()
+        //{
+        //    ImportAddonRegistry.RegisterImportAddon(new EpicLightmapAddon());
+        //}
     }
 }
