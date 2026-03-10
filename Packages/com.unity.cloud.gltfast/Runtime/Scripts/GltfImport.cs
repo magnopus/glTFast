@@ -92,6 +92,29 @@ namespace GLTFast
 
     /// <inheritdoc cref="GltfImportBase"/>
     /// <typeparam name="TRoot">Root schema class to use for de-serialization.</typeparam>
+    public class GltfImport<TRoot> : GltfImportBase<TRoot>
+        where TRoot : RootBase, new()
+    {
+        static GltfJsonUtilityParser s_Parser;
+
+        /// <inheritdoc cref="GltfImportBase(IDownloadProvider,IDeferAgent,IMaterialGenerator,ICodeLogger)"/>
+        public GltfImport(
+            IDownloadProvider downloadProvider = null,
+            IDeferAgent deferAgent = null,
+            IMaterialGenerator materialGenerator = null,
+            ICodeLogger logger = null
+        ) : base(downloadProvider, deferAgent, materialGenerator, logger) { }
+
+        /// <inheritdoc />
+        protected override RootBase ParseJson(string json)
+        {
+            s_Parser ??= new GltfJsonUtilityParser();
+            return s_Parser.ParseJson<TRoot>(json);
+        }
+    }
+
+    /// <inheritdoc cref="GltfImportBase"/>
+    /// <typeparam name="TRoot">Root schema class to use for de-serialization.</typeparam>
     public abstract class GltfImportBase<TRoot> : GltfImportBase, IGltfReadable<TRoot>
         where TRoot : RootBase
     {
@@ -116,26 +139,6 @@ namespace GLTFast
         public TRoot GetSourceRoot()
         {
             return m_Root;
-        }
-
-        /// <summary>
-        /// Get the EPIC_lightmap_textures data for a given node index.
-        /// </summary>
-        /// <param name="nodeIndex">Index of the node</param>
-        /// <returns>EpicLightmap data or null if not present</returns>
-        public EpicLightmap GetNodeLightmap(int nodeIndex)
-        {
-            var node = m_Root.Nodes[nodeIndex];
-            if (node.Extensions?.EPIC_lightmap_textures != null)
-            {
-                int lmIndex = node.Extensions.EPIC_lightmap_textures.lightmap;
-                if (m_Root.Extensions?.EPIC_lightmap_textures?.lightmaps != null &&
-                    lmIndex >= 0 && lmIndex < m_Root.Extensions.EPIC_lightmap_textures.lightmaps.Length)
-                {
-                    return m_Root.Extensions.EPIC_lightmap_textures.lightmaps[lmIndex];
-                }
-            }
-            return null;
         }
     }
 
