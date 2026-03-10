@@ -170,8 +170,7 @@ namespace GLTFast.Schema
                 }
                 // Unset `extension` if none of them was valid
                 if (e.EXT_mesh_gpu_instancing == null &&
-                    e.KHR_lights_punctual == null
-                    )
+                    e.KHR_lights_punctual == null)
                 {
                     UnsetExtensions();
                 }
@@ -193,7 +192,6 @@ namespace GLTFast.Schema
         public MeshGpuInstancing EXT_mesh_gpu_instancing;
         /// <inheritdoc cref="LightsPunctual"/>
         public NodeLightsPunctual KHR_lights_punctual;
-
 
         // Whenever an extension is added, the JsonParser
         // (specifically step four of JsonParser.ParseJson)
