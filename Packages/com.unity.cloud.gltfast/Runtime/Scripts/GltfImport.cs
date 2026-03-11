@@ -92,6 +92,29 @@ namespace GLTFast
 
     /// <inheritdoc cref="GltfImportBase"/>
     /// <typeparam name="TRoot">Root schema class to use for de-serialization.</typeparam>
+    public class GltfImport<TRoot> : GltfImportBase<TRoot>
+        where TRoot : RootBase, new()
+    {
+        static GltfJsonUtilityParser s_Parser;
+
+        /// <inheritdoc cref="GltfImportBase(IDownloadProvider,IDeferAgent,IMaterialGenerator,ICodeLogger)"/>
+        public GltfImport(
+            IDownloadProvider downloadProvider = null,
+            IDeferAgent deferAgent = null,
+            IMaterialGenerator materialGenerator = null,
+            ICodeLogger logger = null
+        ) : base(downloadProvider, deferAgent, materialGenerator, logger) { }
+
+        /// <inheritdoc />
+        protected override RootBase ParseJson(string json)
+        {
+            s_Parser ??= new GltfJsonUtilityParser();
+            return s_Parser.ParseJson<TRoot>(json);
+        }
+    }
+
+    /// <inheritdoc cref="GltfImportBase"/>
+    /// <typeparam name="TRoot">Root schema class to use for de-serialization.</typeparam>
     public abstract class GltfImportBase<TRoot> : GltfImportBase, IGltfReadable<TRoot>
         where TRoot : RootBase
     {

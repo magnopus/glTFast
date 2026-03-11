@@ -15,7 +15,7 @@ namespace GLTFast
     class GltfJsonUtilityParser
     {
         /// <inheritdoc/>
-        public RootBase ParseJson(string json)
+        public TRoot ParseJson<TRoot>(string json) where TRoot : RootBase
         {
             // JsonUtility sometimes creates non-null default instances of objects-type members
             // even though there are none in the original JSON.
@@ -24,13 +24,13 @@ namespace GLTFast
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 #endif
-            Root root;
+            TRoot root;
 
             // Main JSON parsing
             Profiler.BeginSample("JsonUtility main");
             try
             {
-                root = JsonUtility.FromJson<Root>(json);
+                root = JsonUtility.FromJson<TRoot>(json);
                 if (root == null)
                     return null;
             }
@@ -66,6 +66,11 @@ namespace GLTFast
             Debug.Log($"JSON throughput: {throughput} bytes/sec ({json.Length} bytes in {elapsedSeconds} seconds)");
 #endif
             return root;
+        }
+
+        public RootBase ParseJson(string json)
+        {
+            return ParseJson<Root>(json);
         }
     }
 }
