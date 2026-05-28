@@ -74,13 +74,14 @@ namespace GLTFast
     {
         static GltfJsonUtilityParser s_Parser;
 
-        /// <inheritdoc cref="GltfImportBase(IDownloadProvider,IDeferAgent,IMaterialGenerator,ICodeLogger)"/>
+        /// <inheritdoc cref="GltfImportBase(IDownloadProvider,IDeferAgent,IMaterialGenerator,ICodeLogger,ITextureCreator)"/>
         public GltfImport(
             IDownloadProvider downloadProvider = null,
             IDeferAgent deferAgent = null,
             IMaterialGenerator materialGenerator = null,
-            ICodeLogger logger = null
-        ) : base(downloadProvider, deferAgent, materialGenerator, logger) { }
+            ICodeLogger logger = null,
+            ITextureCreator textureCreator = null
+        ) : base(downloadProvider, deferAgent, materialGenerator, logger, textureCreator) { }
 
         /// <inheritdoc />
         protected override RootBase ParseJson(string json)
@@ -97,13 +98,14 @@ namespace GLTFast
     {
         static GltfJsonUtilityParser s_Parser;
 
-        /// <inheritdoc cref="GltfImportBase(IDownloadProvider,IDeferAgent,IMaterialGenerator,ICodeLogger)"/>
+        /// <inheritdoc cref="GltfImportBase(IDownloadProvider,IDeferAgent,IMaterialGenerator,ICodeLogger,ITextureCreator)"/>
         public GltfImport(
             IDownloadProvider downloadProvider = null,
             IDeferAgent deferAgent = null,
             IMaterialGenerator materialGenerator = null,
-            ICodeLogger logger = null
-        ) : base(downloadProvider, deferAgent, materialGenerator, logger) { }
+            ICodeLogger logger = null,
+            ITextureCreator textureCreator = null
+        ) : base(downloadProvider, deferAgent, materialGenerator, logger, textureCreator) { }
 
         /// <inheritdoc />
         protected override RootBase ParseJson(string json)
@@ -118,13 +120,14 @@ namespace GLTFast
     public abstract class GltfImportBase<TRoot> : GltfImportBase, IGltfReadable<TRoot>
         where TRoot : RootBase
     {
-        /// <inheritdoc cref="GltfImportBase(IDownloadProvider,IDeferAgent,IMaterialGenerator,ICodeLogger)"/>
+        /// <inheritdoc cref="GltfImportBase(IDownloadProvider,IDeferAgent,IMaterialGenerator,ICodeLogger,ITextureCreator)"/>
         public GltfImportBase(
             IDownloadProvider downloadProvider = null,
             IDeferAgent deferAgent = null,
             IMaterialGenerator materialGenerator = null,
-            ICodeLogger logger = null
-        ) : base(downloadProvider, deferAgent, materialGenerator, logger) { }
+            ICodeLogger logger = null,
+            ITextureCreator textureCreator = null
+        ) : base(downloadProvider, deferAgent, materialGenerator, logger, textureCreator) { }
 
         TRoot m_Root;
 
@@ -215,6 +218,7 @@ namespace GLTFast
         ImportContext m_Context;
 
         IMaterialGenerator m_MaterialGenerator;
+        ITextureCreator m_TextureCreator;
 
         Dictionary<Type, ImportAddonInstance> m_ImportInstances;
 
@@ -327,11 +331,13 @@ namespace GLTFast
         /// <param name="deferAgent">Provides custom update loop behavior for better frame rate control</param>
         /// <param name="materialGenerator">Provides custom glTF to Unity material conversion</param>
         /// <param name="logger">Provides custom message logging</param>
+        /// <param name="textureCreator">Provides custom texture creation; uses <see cref="DefaultTextureCreator"/> when null</param>
         public GltfImportBase(
             IDownloadProvider downloadProvider = null,
             IDeferAgent deferAgent = null,
             IMaterialGenerator materialGenerator = null,
-            ICodeLogger logger = null
+            ICodeLogger logger = null,
+            ITextureCreator textureCreator = null
             )
         {
             if (deferAgent == null)
@@ -350,6 +356,7 @@ namespace GLTFast
                 deferAgent = s_DefaultDeferAgent;
             }
             m_MaterialGenerator = materialGenerator ?? MaterialGenerator.GetDefaultMaterialGenerator();
+            m_TextureCreator = textureCreator ?? new DefaultTextureCreator();
 
             m_Context = new ImportContext(
                 downloadProvider ?? new DefaultDownloadProvider(),
@@ -1779,10 +1786,12 @@ namespace GLTFast
                     }
                 }
 
+                m_TextureCreator.SetLogger(Logger);
                 if (imageTasks != null)
                 {
                     await Task.WhenAll(imageTasks);
                 }
+                m_TextureCreator.SetLogger(null);
             }
         }
 
@@ -1874,15 +1883,18 @@ namespace GLTFast
             Profiler.BeginSample("LoadImageJpegOrPngFromDataUri");
             // TODO: Investigate alternative: native texture creation in worker thread
             var forceSampleLinear = m_ImageGamma != null && !m_ImageGamma[imageIndex];
-            var texture = CreateEmptyTexture(img, imageIndex, forceSampleLinear);
-            texture.LoadImage(
+            var texture = m_TextureCreator.CreateTextureFromJpegOrPng(
 #if UNITY_6000_0_OR_NEWER
                 data.AsReadOnlySpan(),
 #else
                 data,
 #endif
-                !LoadImageReadable(imageIndex)
-            );
+                img,
+                imageIndex,
+                forceSampleLinear,
+                !LoadImageReadable(imageIndex),
+                m_Settings.GenerateMipMaps,
+                m_Settings.AnisotropicFilterLevel);
             Profiler.EndSample();
             return texture;
         }
@@ -1915,35 +1927,10 @@ namespace GLTFast
             NativeArray<byte>.ReadOnly data,
             CancellationToken cancellationToken)
         {
-            Profiler.BeginSample("LoadImageKtx");
-
             var forceSampleLinear = m_ImageGamma != null && !m_ImageGamma[imageIndex];
             var readable = LoadImageReadable(imageIndex);
-
-            Texture2D texture = null;
-
-            var ktxTexture = new KtxTexture();
-            var errorCode = ktxTexture.Open(data);
-            if (errorCode != ErrorCode.Success) {
-                Logger?.Error(LogCode.EmbedImageLoadFailed);
-                return null;
-            }
-
-            cancellationToken.ThrowIfCancellationRequestedWithTracking();
-
-            // TODO implement cancellation in KTX package
-            var result = await ktxTexture.LoadTexture2D(forceSampleLinear, readable);
-            ktxTexture.Dispose();
-            if (result.errorCode == ErrorCode.Success) {
-                texture = result.texture;
-                texture.name = GetImageName(img, imageIndex);
-            }
-            else {
-                Logger?.Error(LogCode.EmbedImageLoadFailed);
-            }
-
-            Profiler.EndSample();
-            return texture;
+            return await m_TextureCreator.CreateTextureFromKtxAsync(
+                data, img, imageIndex, forceSampleLinear, readable, cancellationToken);
         }
 #endif
 
@@ -2032,27 +2019,32 @@ namespace GLTFast
                     // on Render thread, which is occupied by Gfx.UploadTextureData for 19 ms for a 2k by 2k texture
                     if (LoadImageFromBytes(imageIndex))
                     {
-                        Profiler.BeginSample("Texture2D.LoadImage");
                         var forceSampleLinear = m_ImageGamma!=null && !m_ImageGamma[imageIndex];
-                        txt = CreateEmptyTexture(Root.Images[imageIndex], imageIndex, forceSampleLinear);
                         var markNonReadable = !LoadImageReadable(imageIndex);
 #if UNITY_6000_0_OR_NEWER
                         if(www is INativeDownload nativeDownload)
                         {
-                            txt.LoadImage(
+                            txt = m_TextureCreator.CreateTextureFromJpegOrPng(
                                 nativeDownload.NativeData.AsReadOnlySpan(),
-                                markNonReadable
-                            );
+                                Root.Images[imageIndex],
+                                imageIndex,
+                                forceSampleLinear,
+                                markNonReadable,
+                                m_Settings.GenerateMipMaps,
+                                m_Settings.AnisotropicFilterLevel);
                         }
                         else
 #endif
                         {
-                            txt.LoadImage(
+                            txt = m_TextureCreator.CreateTextureFromJpegOrPng(
                                 www.Data,
-                                markNonReadable
-                                );
+                                Root.Images[imageIndex],
+                                imageIndex,
+                                forceSampleLinear,
+                                markNonReadable,
+                                m_Settings.GenerateMipMaps,
+                                m_Settings.AnisotropicFilterLevel);
                         }
-                        Profiler.EndSample();
                     }
                     else
                     {
@@ -3536,14 +3528,20 @@ namespace GLTFast
 #if UNITY_IMAGECONVERSION
 
                         var forceSampleLinear = m_ImageGamma != null && !m_ImageGamma[i];
-                        var txt = CreateEmptyTexture(img, i, forceSampleLinear);
+                        Texture2D txt;
 #if UNITY_6000_0_OR_NEWER
-                        Profiler.BeginSample("Texture2D.LoadImage");
                         var data = ((IGltfBuffers)this).GetBufferView(img.bufferView, out _);
-                        txt.LoadImage(data.AsNativeArrayReadOnly().AsReadOnlySpan(), !LoadImageReadable(i));
-                        Profiler.EndSample();
+                        txt = m_TextureCreator.CreateTextureFromJpegOrPng(
+                            data.AsNativeArrayReadOnly().AsReadOnlySpan(),
+                            img,
+                            i,
+                            forceSampleLinear,
+                            !LoadImageReadable(i),
+                            m_Settings.GenerateMipMaps,
+                            m_Settings.AnisotropicFilterLevel);
                         await DeferAgent.BreakPoint();
 #else // UNITY_6000_0_OR_NEWER
+                        txt = CreateEmptyTexture(img, i, forceSampleLinear);
                         Profiler.BeginSample("CreateTexturesFromBuffers.ExtractBuffer");
                         var bufferView = bufferViews[img.bufferView];
                         var buffer = GetBuffer(bufferView.buffer);
