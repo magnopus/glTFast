@@ -55,23 +55,53 @@ namespace GLTFast
             return txt;
         }
 
-#if UNITY_IMAGECONVERSION
         /// <inheritdoc />
-        public override Texture2D CreateTextureFromJpegOrPng(
-            System.ReadOnlySpan<byte> data,
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public override async Task<Texture2D> CreateTextureAsync(
+            NativeArray<byte>.ReadOnly data,
+            ImageFormat imageFormat,
             Image img,
             int imageIndex,
             bool forceSampleLinear,
-            bool markNonReadable,
+            bool readable,
+            bool generateMipMaps,
+            int anisoLevel,
+            CancellationToken cancellationToken)
+#pragma warning restore CS1998
+        {
+            switch (imageFormat)
+            {
+#if UNITY_IMAGECONVERSION
+                case ImageFormat.PNG:
+                case ImageFormat.Jpeg:
+                    return CreateTextureFromJpegOrPng(data, img, imageIndex, forceSampleLinear, readable, generateMipMaps, anisoLevel);
+#endif // UNITY_IMAGECONVERSION
+#if KTX_IS_ENABLED
+                case ImageFormat.Ktx:
+                    return await CreateTextureFromKtxAsync(data, img, imageIndex, forceSampleLinear, readable, cancellationToken);
+#endif // KTX_IS_ENABLED
+                default:
+                    Logger?.Error(LogCode.ImageFormatUnknown, imageIndex.ToString(), string.Empty);
+                    return null;
+            }
+        }
+
+#if UNITY_IMAGECONVERSION
+        static Texture2D CreateTextureFromJpegOrPng(
+            NativeArray<byte>.ReadOnly data,
+            Image img,
+            int imageIndex,
+            bool forceSampleLinear,
+            bool readable,
             bool generateMipMaps,
             int anisoLevel)
         {
             var texture = CreateEmptyTexture(img, imageIndex, forceSampleLinear, generateMipMaps, anisoLevel);
             Profiler.BeginSample("Texture2D.LoadImage");
 #if UNITY_6000_0_OR_NEWER
-            texture.LoadImage(data, markNonReadable);
+            texture.LoadImage(data.AsReadOnlySpan(), !readable);
 #else
-            texture.LoadImage(data.ToArray(), markNonReadable);
+            texture.LoadImage(data.ToArray(), !readable);
 #endif
             Profiler.EndSample();
             return texture;
@@ -79,8 +109,7 @@ namespace GLTFast
 #endif // UNITY_IMAGECONVERSION
 
 #if KTX_IS_ENABLED
-        /// <inheritdoc />
-        public override async Task<Texture2D> CreateTextureFromKtxAsync(
+        async Task<Texture2D> CreateTextureFromKtxAsync(
             NativeArray<byte>.ReadOnly data,
             Image img,
             int imageIndex,

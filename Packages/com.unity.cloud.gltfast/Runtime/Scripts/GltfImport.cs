@@ -1851,7 +1851,6 @@ namespace GLTFast
             }
         }
 
-#if UNITY_IMAGECONVERSION
         async Task<Texture2D> LoadImageJpegOrPngFromDataUri(
             int imageIndex,
             Image img,
@@ -1883,24 +1882,36 @@ namespace GLTFast
             Profiler.BeginSample("LoadImageJpegOrPngFromDataUri");
             // TODO: Investigate alternative: native texture creation in worker thread
             var forceSampleLinear = m_ImageGamma != null && !m_ImageGamma[imageIndex];
-            var texture = m_TextureCreator.CreateTextureFromJpegOrPng(
 #if UNITY_6000_0_OR_NEWER
-                data.AsReadOnlySpan(),
-#else
-                data,
-#endif
+            var texture = await m_TextureCreator.CreateTextureAsync(
+                data.AsReadOnly(),
+                m_ImageFormats[imageIndex],
                 img,
                 imageIndex,
                 forceSampleLinear,
-                !LoadImageReadable(imageIndex),
+                LoadImageReadable(imageIndex),
                 m_Settings.GenerateMipMaps,
-                m_Settings.AnisotropicFilterLevel);
+                m_Settings.AnisotropicFilterLevel,
+                cancellationToken);
+            data.Dispose();
+#else
+            var nativeData = new NativeArray<byte>(data, Allocator.Temp);
+            var texture = await m_TextureCreator.CreateTexture(
+                nativeData.AsReadOnly(),
+                m_ImageFormats[imageIndex],
+                img,
+                imageIndex,
+                forceSampleLinear,
+                LoadImageReadable(imageIndex),
+                m_Settings.GenerateMipMaps,
+                m_Settings.AnisotropicFilterLevel,
+                cancellationToken);
+            nativeData.Dispose();
+#endif
             Profiler.EndSample();
             return texture;
         }
-#endif // UNITY_IMAGECONVERSION
 
-#if KTX_IS_ENABLED
         async Task<Texture2D> LoadImageKtxFromDataUri(
             int imageIndex,
             Image img,
@@ -1928,11 +1939,11 @@ namespace GLTFast
             CancellationToken cancellationToken)
         {
             var forceSampleLinear = m_ImageGamma != null && !m_ImageGamma[imageIndex];
-            var readable = LoadImageReadable(imageIndex);
-            return await m_TextureCreator.CreateTextureFromKtxAsync(
-                data, img, imageIndex, forceSampleLinear, readable, cancellationToken);
+            return await m_TextureCreator.CreateTextureAsync(
+                data, ImageFormat.Ktx, img, imageIndex, forceSampleLinear,
+                LoadImageReadable(imageIndex), m_Settings.GenerateMipMaps,
+                m_Settings.AnisotropicFilterLevel, cancellationToken);
         }
-#endif
 
         async Task<bool> WaitForBufferDownloads(CancellationToken cancellationToken)
         {
@@ -2020,30 +2031,36 @@ namespace GLTFast
                     if (LoadImageFromBytes(imageIndex))
                     {
                         var forceSampleLinear = m_ImageGamma!=null && !m_ImageGamma[imageIndex];
-                        var markNonReadable = !LoadImageReadable(imageIndex);
 #if UNITY_6000_0_OR_NEWER
                         if(www is INativeDownload nativeDownload)
                         {
-                            txt = m_TextureCreator.CreateTextureFromJpegOrPng(
-                                nativeDownload.NativeData.AsReadOnlySpan(),
+                            NativeArray<byte>.ReadOnly data = nativeDownload.NativeData;
+                            txt = await m_TextureCreator.CreateTextureAsync(
+                                data,
+                                m_ImageFormats[imageIndex],
                                 Root.Images[imageIndex],
                                 imageIndex,
                                 forceSampleLinear,
-                                markNonReadable,
+                                LoadImageReadable(imageIndex),
                                 m_Settings.GenerateMipMaps,
-                                m_Settings.AnisotropicFilterLevel);
+                                m_Settings.AnisotropicFilterLevel,
+                                cancellationToken);
                         }
                         else
 #endif
                         {
-                            txt = m_TextureCreator.CreateTextureFromJpegOrPng(
-                                www.Data,
+                            var nativeData = new NativeArray<byte>(www.Data, Allocator.Temp);
+                            txt = await m_TextureCreator.CreateTextureAsync(
+                                nativeData.AsReadOnly(),
+                                m_ImageFormats[imageIndex],
                                 Root.Images[imageIndex],
                                 imageIndex,
                                 forceSampleLinear,
-                                markNonReadable,
+                                LoadImageReadable(imageIndex),
                                 m_Settings.GenerateMipMaps,
-                                m_Settings.AnisotropicFilterLevel);
+                                m_Settings.AnisotropicFilterLevel,
+                                cancellationToken);
+                            nativeData.Dispose();
                         }
                     }
                     else
@@ -3531,14 +3548,16 @@ namespace GLTFast
                         Texture2D txt;
 #if UNITY_6000_0_OR_NEWER
                         var data = ((IGltfBuffers)this).GetBufferView(img.bufferView, out _);
-                        txt = m_TextureCreator.CreateTextureFromJpegOrPng(
-                            data.AsNativeArrayReadOnly().AsReadOnlySpan(),
+                        txt = await m_TextureCreator.CreateTextureAsync(
+                            data.AsNativeArrayReadOnly(),
+                            imgFormat,
                             img,
                             i,
                             forceSampleLinear,
-                            !LoadImageReadable(i),
+                            LoadImageReadable(i),
                             m_Settings.GenerateMipMaps,
-                            m_Settings.AnisotropicFilterLevel);
+                            m_Settings.AnisotropicFilterLevel,
+                            cancellationToken);
                         await DeferAgent.BreakPoint();
 #else // UNITY_6000_0_OR_NEWER
                         txt = CreateEmptyTexture(img, i, forceSampleLinear);

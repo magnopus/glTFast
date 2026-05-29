@@ -5,7 +5,7 @@ using System;
 
 namespace GLTFast
 {
-    enum ImageFormat
+    public enum ImageFormat
     {
         Unknown,
         PNG,

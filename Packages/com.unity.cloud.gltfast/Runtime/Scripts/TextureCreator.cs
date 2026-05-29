@@ -1,17 +1,9 @@
 // SPDX-FileCopyrightText: 2025 Unity Technologies and the glTFast authors
 // SPDX-License-Identifier: Apache-2.0
 
-#if KTX_IS_RECENT
-#define KTX_IS_ENABLED
-#elif KTX_IS_INSTALLED
-#error You have to update the *KTX for Unity* package in package manager to enable support for KTX textures in *glTFast*.
-#endif
-
 using System.Threading;
 using System.Threading.Tasks;
-#if KTX_IS_ENABLED
 using Unity.Collections;
-#endif
 using UnityEngine;
 
 namespace GLTFast
@@ -46,27 +38,16 @@ namespace GLTFast
             Logger = logger;
         }
 
-#if UNITY_IMAGECONVERSION
         /// <inheritdoc />
-        public abstract Texture2D CreateTextureFromJpegOrPng(
-            System.ReadOnlySpan<byte> data,
-            Image img,
-            int imageIndex,
-            bool forceSampleLinear,
-            bool markNonReadable,
-            bool generateMipMaps,
-            int anisoLevel);
-#endif // UNITY_IMAGECONVERSION
-
-#if KTX_IS_ENABLED
-        /// <inheritdoc />
-        public abstract Task<Texture2D> CreateTextureFromKtxAsync(
+        public abstract Task<Texture2D> CreateTextureAsync(
             NativeArray<byte>.ReadOnly data,
+            ImageFormat imageFormat,
             Image img,
             int imageIndex,
             bool forceSampleLinear,
             bool readable,
+            bool generateMipMaps,
+            int anisoLevel,
             CancellationToken cancellationToken);
-#endif // KTX_IS_ENABLED
     }
 }

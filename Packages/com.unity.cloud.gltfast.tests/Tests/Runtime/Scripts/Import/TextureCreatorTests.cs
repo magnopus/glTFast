@@ -61,8 +61,10 @@ namespace GLTFast.Tests.Import
             var logger = new CollectingLogger();
             var import = new GltfImport(logger: logger, textureCreator: mock);
             Assert.IsTrue(await import.LoadGltfJson(EmbeddedPngGltf("test_image")));
-            Assert.AreEqual(1, mock.CreateTextureFromJpegOrPngCallCount,
-                "CreateTextureFromJpegOrPng should be called exactly once");
+            Assert.AreEqual(1, mock.CreateTextureCallCount,
+                "CreateTexture should be called exactly once");
+            Assert.AreEqual(ImageFormat.PNG, mock.LastImageFormat,
+                "CreateTexture should be called with ImageFormat.PNG");
             var texture = import.GetTexture(0);
             Assert.IsNotNull(texture, "GetTexture(0) should return the mock's Texture2D");
             Assert.AreEqual("test_image", texture.name, "Texture name should come from the image descriptor");
@@ -82,8 +84,8 @@ namespace GLTFast.Tests.Import
             var logger = new CollectingLogger();
             var import = new GltfImport(logger: logger, textureCreator: mock);
             Assert.IsTrue(await import.LoadGltfJson(EmbeddedPngGltf()));
-            Assert.IsNotNull(mock.LoggerAtTimeOfJpegOrPngCreation,
-                "SetLogger should be called with a non-null logger before CreateTextureFromJpegOrPng");
+            Assert.IsNotNull(mock.LoggerAtTimeOfCreation,
+                "SetLogger should be called with a non-null logger before CreateTexture");
             LoggerTest.AssertLogger(logger);
         }
 
@@ -124,8 +126,10 @@ namespace GLTFast.Tests.Import
             var logger = new CollectingLogger();
             var import = new GltfImport(logger: logger, textureCreator: mock);
             await import.LoadGltfJson(gltf);
-            Assert.AreEqual(1, mock.CreateTextureFromKtxAsyncCallCount,
-                "CreateTextureFromKtxAsync should be called exactly once");
+            Assert.AreEqual(1, mock.CreateTextureCallCount,
+                "CreateTexture should be called exactly once");
+            Assert.AreEqual(ImageFormat.Ktx, mock.LastImageFormat,
+                "CreateTexture should be called with ImageFormat.Ktx");
         }
 #endif // KTX_IS_ENABLED
     }
