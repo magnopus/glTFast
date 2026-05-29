@@ -356,7 +356,7 @@ namespace GLTFast
                 deferAgent = s_DefaultDeferAgent;
             }
             m_MaterialGenerator = materialGenerator ?? MaterialGenerator.GetDefaultMaterialGenerator();
-            m_TextureCreator = textureCreator ?? new DefaultTextureCreator();
+            m_TextureCreator = textureCreator ?? TextureCreator.GetDefaultTextureCreator();
 
             m_Context = new ImportContext(
                 downloadProvider ?? new DefaultDownloadProvider(),

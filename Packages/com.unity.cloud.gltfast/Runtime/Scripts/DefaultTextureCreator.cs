@@ -26,16 +26,8 @@ namespace GLTFast
     /// Default implementation of <see cref="ITextureCreator"/> that creates
     /// <see cref="Texture2D"/> objects from compressed image data.
     /// </summary>
-    public class DefaultTextureCreator : ITextureCreator
+    public class DefaultTextureCreator : TextureCreator
     {
-        ICodeLogger m_Logger;
-
-        /// <inheritdoc />
-        public void SetLogger(ICodeLogger logger)
-        {
-            m_Logger = logger;
-        }
-
         static Texture2D CreateEmptyTexture(
             Image img,
             int index,
@@ -65,7 +57,7 @@ namespace GLTFast
 
 #if UNITY_IMAGECONVERSION
         /// <inheritdoc />
-        public Texture2D CreateTextureFromJpegOrPng(
+        public override Texture2D CreateTextureFromJpegOrPng(
             System.ReadOnlySpan<byte> data,
             Image img,
             int imageIndex,
@@ -88,7 +80,7 @@ namespace GLTFast
 
 #if KTX_IS_ENABLED
         /// <inheritdoc />
-        public async Task<Texture2D> CreateTextureFromKtxAsync(
+        public override async Task<Texture2D> CreateTextureFromKtxAsync(
             NativeArray<byte>.ReadOnly data,
             Image img,
             int imageIndex,
@@ -102,7 +94,7 @@ namespace GLTFast
             var errorCode = ktxTexture.Open(data);
             if (errorCode != ErrorCode.Success)
             {
-                m_Logger?.Error(LogCode.EmbedImageLoadFailed);
+                Logger?.Error(LogCode.EmbedImageLoadFailed);
                 Profiler.EndSample();
                 return null;
             }
@@ -121,7 +113,7 @@ namespace GLTFast
             }
             else
             {
-                m_Logger?.Error(LogCode.EmbedImageLoadFailed);
+                Logger?.Error(LogCode.EmbedImageLoadFailed);
             }
 
             Profiler.EndSample();
